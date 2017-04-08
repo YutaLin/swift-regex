@@ -22,6 +22,13 @@ extension NSRegularExpression {
         return self.firstMatch(in: string, options: options, range: rangeOfString)
     }
 
+    func stringByReplacingMatches(in string: String,
+                                  options: MatchingOptions = [],
+                                  withTemplate templ: String) -> String {
+        let rangeOfString = NSRange(location: 0, length: string.characters.count)
+        return self.stringByReplacingMatches(in: string, options: options, range: rangeOfString, withTemplate: templ)
+    }
+
     // Helper for getting capture groups
 
     func matchedCaptureGroups(in string: String, options: MatchingOptions = []) -> [[String]] {
@@ -81,3 +88,8 @@ let emailPattern = (~"^(.+)@(.+\\.com)$")!
 let matchedCaptureGroups = emailPattern.matchedCaptureGroups(in: "sodas@icloud.com")[0]
 let account = matchedCaptureGroups[0]
 let domain = matchedCaptureGroups[1]
+
+//: Substitution
+
+let emailAtGoogle = "johndoe@gmail.com"
+let emailAtFb = emailPattern.stringByReplacingMatches(in: emailAtGoogle, withTemplate: "$1@fb.com")
